@@ -1,0 +1,14 @@
+biopython>=1
+pandas>=1
+tqdm>=4
+seaborn>=0
+pygad>=2
+numpy>=1
+matplotlib>=3
+
+[testing]
+pytest>=6.0
+pytest-cov>=2.0
+mypy>=0.910
+flake8>=3.9
+tox>=3.24
