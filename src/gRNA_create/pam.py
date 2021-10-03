@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from typing import List
+
 from Bio.Data.IUPACData import ambiguous_dna_values
 from enum import Enum
 from gRNA_create.utils import ambiguous_code
@@ -27,7 +30,7 @@ class PAM:
         self.sequence = sequence
         self.length = len(sequence)
 
-    def generate_non_ambiguous(self) -> list[PAM]:
+    def generate_non_ambiguous(self) -> List[PAM]:
         """
         Generates all non-degenerate PAMs that are subsets of this PAM
 

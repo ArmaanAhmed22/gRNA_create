@@ -3,6 +3,7 @@ from collections import Counter
 import pytest
 
 from gRNA_create.pam import PAM, End
+from typing import List
 
 
 @pytest.mark.parametrize("PAM_1, PAM_2, expected", [
@@ -22,5 +23,5 @@ def test_pam_overlap(PAM_1: PAM, PAM_2: PAM, expected: bool):
     (PAM(End(3), "NTK"),
      [PAM(End(3), cur_PAM_seq) for cur_PAM_seq in ["ATT", "GTT", "CTT", "TTT", "ATG", "GTG", "CTG", "TTG"]])
 ])
-def test_pam_generate_non_ambiguous(PAM_1: PAM, expected: list[PAM]):
+def test_pam_generate_non_ambiguous(PAM_1: PAM, expected: List[PAM]):
     assert Counter(PAM_1.generate_non_ambiguous()) == Counter(expected)

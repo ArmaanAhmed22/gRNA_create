@@ -1,7 +1,7 @@
 from __future__ import annotations
 from collections import Counter
 
-from typing import Callable
+from typing import Callable, List
 
 import pandas
 import pygad
@@ -15,7 +15,7 @@ import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
-gRNA_alias = list[int]
+gRNA_alias = List[int]
 
 
 class gRNAGeneticAlgorithm(pygad.GA):
@@ -23,9 +23,9 @@ class gRNAGeneticAlgorithm(pygad.GA):
                  num_generations: int,
                  num_parents_mating: int,
                  scoring_metric: Callable[[ConfusionMatrix], float],
-                 initial_gRNAs: list[gRNA],
-                 targets: list[str],
-                 misses: list[str] = [],
+                 initial_gRNAs: List[gRNA],
+                 targets: List[str],
+                 misses: List[str] = [],
                  mutation_rate: float = 0.1,
                  **kwargs
                  ):
@@ -139,8 +139,8 @@ class gRNAGroupGA:
                  num_parents_mating: int,
                  scoring_metric: Callable[[ConfusionMatrix], float],
                  initial_gRNAs: pandas.DataFrame,
-                 targets: list[str],
-                 misses: list[str] = [],
+                 targets: List[str],
+                 misses: List[str] = [],
                  mutation_rate: float = 0.1,
                  **kwargs
                  ):
@@ -157,7 +157,7 @@ class gRNAGroupGA:
             else:
                 self.pos_to_gRNAs[cur_row['gRNA'].position]["forward"].append(cur_row["gRNA"])
 
-        self.gRNA_genetic_algorithms: list[gRNAGeneticAlgorithm] = []
+        self.gRNA_genetic_algorithms: List[gRNAGeneticAlgorithm] = []
         for pos, g_dicts in self.pos_to_gRNAs.items():
             for dir, cur_gRNAs in g_dicts.items():
                 if dir == "reverse" and len(cur_gRNAs) != 0:
@@ -192,7 +192,7 @@ class gRNAGroupGA:
                                 cur_GA.scorer)
                 gRNA_to_metric_score[cur_gRNA] = fitness
 
-        df_pre: list[dict] = \
+        df_pre: List[dict] = \
             [{"location": cur_gRNA.position, "gRNA": cur_gRNA, self.scoring_metric.__name__: score} for cur_gRNA, score
              in gRNA_to_metric_score.items()]
         return pandas.DataFrame(df_pre)

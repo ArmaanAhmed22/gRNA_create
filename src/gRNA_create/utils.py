@@ -1,10 +1,10 @@
 import os
-from typing import Callable, TypedDict
+from typing import Callable, TypedDict, List
 
 from Bio import SeqIO
 
 
-def get_sequences_from_dir(dir: str, accepted_extensions: list[str]) -> list[str]:
+def get_sequences_from_dir(dir: str, accepted_extensions: List[str]) -> List[str]:
     """
     This utility function gets sequences from a directory
 
@@ -14,14 +14,14 @@ def get_sequences_from_dir(dir: str, accepted_extensions: list[str]) -> list[str
     """
     if ("." in dir):
         return [str(record.seq) for record in list(SeqIO.parse(open(dir), dir.split(".")[-1]))]
-    genomes: list[str] = return_files_with_extension(dir, accepted_extensions)
-    cur_targets: list[str] = []
+    genomes: List[str] = return_files_with_extension(dir, accepted_extensions)
+    cur_targets: List[str] = []
     for g in genomes:
         cur_targets += [str(record.seq) for record in list(SeqIO.parse(open(dir + "/" + g[0]), g[1]))]
     return cur_targets
 
 
-def return_files_with_extension(files_dir: str, extensions: list[str]) -> list:
+def return_files_with_extension(files_dir: str, extensions: List[str]) -> list:
     """
     This utility function returns files from a directory containing of the extensions
 

@@ -1,6 +1,5 @@
 import math
-from typing import Callable
-
+from typing import Callable, List
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -21,8 +20,8 @@ class gRNAVisualize:
     def create_rank_plot(self, output: str = "-", separate_rev_comp: bool = True, top_quantile: float = 0.8):
         sorted: pd.DataFrame = self.data.sort_values(by=self.scoring_metric_name, ascending=False)
         if self.has_rev_comp and separate_rev_comp:
-            direction_breakup_names: list[str] = sorted["direction"].unique()
-            direction_breakups: list[pd.DataFrame] = []
+            direction_breakup_names: List[str] = sorted["direction"].unique()
+            direction_breakups: List[pd.DataFrame] = []
             for cur_name in direction_breakup_names:
                 cur_df: pd.DataFrame = sorted[sorted["direction"] == cur_name]
                 quant: float = cur_df[self.scoring_metric_name].quantile(q=top_quantile)

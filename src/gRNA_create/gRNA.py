@@ -1,4 +1,4 @@
-from typing import Callable, Union
+from typing import Callable, Union, List
 
 from Bio.Seq import Seq
 
@@ -48,7 +48,7 @@ class gRNA(Seq):
         penalty: float = self.scorer.penalty(self.spacer, target, self.pam, target_PAM)
         return penalty < cutoff
 
-    def binds(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -> list[bool]:
+    def binds(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -> List[bool]:
         """
         Predicts whether the gRNA will bind to the specified targets
 
@@ -62,7 +62,7 @@ class gRNA(Seq):
             a.append(self.bind(i[0], i[1], cutoff))
         return a
 
-    def bind_mult(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -> list[bool]:
+    def bind_mult(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -> List[bool]:
         """
         Predicts whether the gRNA will bind to the specified targets using a Pool
 
@@ -71,7 +71,7 @@ class gRNA(Seq):
         :param cutoff: The cutoff for the penalty between the gRNA and target
         :return: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
         """
-        out: list[bool] = gRNA._pool.starmap(self.bind, zip(targets, target_PAMs, [cutoff] * len(targets)))
+        out: List[bool] = gRNA._pool.starmap(self.bind, zip(targets, target_PAMs, [cutoff] * len(targets)))
         return out
 
     def generate_confusion_matrix(self, positives: list, positive_PAMs: list, negatives: list, negative_PAMs: list,
@@ -154,9 +154,9 @@ class gRNA_Factory:
 
     def create_gRNAs_with_reverse_complement(
             self,
-            genomes_target: Union[str, list[str]],
+            genomes_target: Union[str, List[str]],
             scoring_metric: Callable[[int, int, int, int], float],
-            genomes_miss: Union[str, list[str]] = [],
+            genomes_miss: Union[str, List[str]] = [],
             pam_minimum_prevalence: float = 0.5) -> pd.DataFrame:
         cur_targets = get_sequences_from_dir(genomes_target, ["fasta", "fna", "fastq"]) if type(
             genomes_target) == str else genomes_target
@@ -184,9 +184,9 @@ class gRNA_Factory:
     @gRNA.parallelize()
     def create_gRNAs(
             self,
-            genomes_target: Union[str, list[str]],
+            genomes_target: Union[str, List[str]],
             scoring_metric: Callable[[int, int, int, int], float],
-            genomes_miss: Union[str, list[str]] = [],
+            genomes_miss: Union[str, List[str]] = [],
             pam_minimum_prevalence: float = 0.5,
             bind_cutoff: float = 0.5) -> pd.DataFrame:
         """
@@ -210,19 +210,19 @@ class gRNA_Factory:
         pams_lookup: dict[str, PAM] = {str(pam): pam for pam in
                                        PAM(self.pam.location, self.pam.sequence).generate_non_ambiguous()}
 
-        cur_targets: list[str] = get_sequences_from_dir(genomes_target, ["fasta", "fna", "fastq"]) if str == type(
+        cur_targets: List[str] = get_sequences_from_dir(genomes_target, ["fasta", "fna", "fastq"]) if str == type(
             genomes_target) else list(genomes_target)
         """The positive target sequences"""
         number_targets: int = len(cur_targets)
         """Count of positive target sequences"""
 
-        cur_misses: list[str] = get_sequences_from_dir(str(genomes_miss), ["fasta", "fna", "fastq"]) if str == type(
+        cur_misses: List[str] = get_sequences_from_dir(str(genomes_miss), ["fasta", "fna", "fastq"]) if str == type(
             genomes_miss) else list(genomes_miss)
         """The negative target sequences"""
         number_misses: int = len(cur_misses)
         """Count of negative target sequences"""
 
-        nuc_prevalence: list[Counter] = [Counter(nucs) for nucs in zip(*cur_targets)]
+        nuc_prevalence: List[Counter] = [Counter(nucs) for nucs in zip(*cur_targets)]
         """The absolute nucleotide prevalence of the positive target sequences"""
         if self.pam.location == End(5):
             start_pam_search: int = 0
@@ -237,7 +237,7 @@ class gRNA_Factory:
             is_end_3 = True
         i: int = start_pam_search
         """Index of the current search region"""
-        possible_pam_regions: list[int] = []
+        possible_pam_regions: List[int] = []
         """List of good candidate gRNA regions (have PAM prevalence above cutoff)"""
         while i < end_pam_search:
             # -----------------------------
@@ -257,7 +257,7 @@ class gRNA_Factory:
                 i += 1
                 continue
             # -----------------------------
-            pams: list[str] = []
+            pams: List[str] = []
             "All the PAMs at this position within all positive target sequences"
             for target in cur_targets:
                 pams.append(target[i: i + self.pam.length])
@@ -273,11 +273,11 @@ class gRNA_Factory:
             possible_pam_regions.append(i)
             i += 1
         # df_pre_type_unit = {"location": int, "gRNA": gRNA, "binding_efficiency": float}
-        df_pre: list[dict] = []
+        df_pre: List[dict] = []
         pam_place: int
         for pam_place in tqdm(possible_pam_regions, desc="gRNAs at this position"):
-            spacers_list: list[str] = []
-            targets_w_pam: list[str] = []
+            spacers_list: List[str] = []
+            targets_w_pam: List[str] = []
             for target in cur_targets:
                 if is_end_3:
                     spacers_list.append(target[pam_place - self.length:pam_place])
@@ -285,7 +285,7 @@ class gRNA_Factory:
                 else:
                     spacers_list.append(target[pam_place + self.pam.length:pam_place + self.pam.length + self.length])
                     targets_w_pam.append(target[pam_place:pam_place + self.pam.length + self.length])
-            misses_w_pam: list[str] = []
+            misses_w_pam: List[str] = []
             for target in cur_misses:
                 if is_end_3:
                     misses_w_pam.append(target[pam_place - self.length:pam_place + self.pam.length])
@@ -293,7 +293,7 @@ class gRNA_Factory:
                     misses_w_pam.append(target[pam_place:pam_place + self.pam.length + self.length])
             mwp_count: Counter = Counter(misses_w_pam)
 
-            spacers: list[str] = list(Counter(spacers_list).keys())
+            spacers: List[str] = list(Counter(spacers_list).keys())
             twp_count: Counter = Counter(targets_w_pam)
 
             for spacer in spacers:

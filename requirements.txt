@@ -5,3 +5,4 @@ tqdm==4.61.2
 Biopython==1.79
 numpy==1.21.0
 matplotlib==3.4.2
+colored==1.4.2
