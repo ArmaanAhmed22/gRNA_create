@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 import pandas as pd
 
-from gRNA import gRNA
+from gRNA_create.gRNA import gRNA
 
 from colored import attr
 
