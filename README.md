@@ -5,7 +5,7 @@ Here, I present a tool to create gRNAs for a myriad of different Cas enzyme. gRN
 ## Installation
 1) `git clone https://github.com/ArmaanAhmed22/gRNA_create`
 2) `cd gRNA_create`
-3) `python -m pip install . -r requirements.pip`
+3) `python -m pip install . -r requirements.txt`
 
 ## Usage
 Creating gRNAs against target:
