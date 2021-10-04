@@ -1,4 +1,5 @@
 import abc
+from typing import Dict
 
 from gRNA_create.pam import PAM
 from gRNA_create.utils import complement_table, transcribe_table
@@ -91,7 +92,7 @@ class AaCas12b(Scorer):
 class CFDScorer(Scorer):
     def __init__(self):
         self.cfd: pd.DataFrame = pd.read_csv("../tests/cfd.csv", index_col=0)
-        self.cfd_dict: dict[str, dict[str, float]] = self.cfd.to_dict()
+        self.cfd_dict: Dict[str, Dict[str, float]] = self.cfd.to_dict()
 
     def penalty(self, gRNA_spacer: str, target: str, needed_PAM: PAM, current_PAM: PAM) -> float:
         if not PAM.overlap(needed_PAM, current_PAM):

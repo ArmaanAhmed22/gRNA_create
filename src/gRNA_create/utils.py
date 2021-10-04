@@ -1,5 +1,5 @@
 import os
-from typing import Callable, TypedDict, List
+from typing import Callable, TypedDict, List, Dict
 
 from Bio import SeqIO
 
@@ -34,13 +34,13 @@ def return_files_with_extension(files_dir: str, extensions: List[str]) -> list:
     return cur_files
 
 
-complement_table = {
+complement_table: Dict[str, str] = {
     "A": "T",
     "T": "A",
     "G": "C",
     "C": "G"}
 
-transcribe_table = {
+transcribe_table: Dict[str, str] = {
     "A": "A",
     "T": "U",
     "G": "G",
@@ -63,7 +63,7 @@ def reverse_complement_dna(seq):
     return "".join([complement_table[nuc] for nuc in seq[::-1]])
 
 
-ambiguous_code = {
+ambiguous_code: Dict[str, int] = {
     "A": nucleotide_code_bidirectional_dna["A"],
     "C": nucleotide_code_bidirectional_dna["C"],
     "G": nucleotide_code_bidirectional_dna["G"],

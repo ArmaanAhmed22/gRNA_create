@@ -1,4 +1,4 @@
-from typing import Callable, Union, List
+from typing import Callable, Union, List, Dict
 
 from Bio.Seq import Seq
 
@@ -213,7 +213,7 @@ class gRNA_Factory:
             """
             return scoring_metric(series.tp, series.fn, series.tn, series.fp)
 
-        pams_lookup: dict[str, PAM] = {str(pam): pam for pam in
+        pams_lookup: Dict[str, PAM] = {str(pam): pam for pam in
                                        PAM(self.pam.location, self.pam.sequence).generate_non_ambiguous()}
 
         cur_targets: List[str] = get_sequences_from_dir(genomes_target, ["fasta", "fna", "fastq"]) if str == type(

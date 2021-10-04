@@ -1,5 +1,5 @@
 import math
-from typing import Callable, List
+from typing import Callable, List, Dict
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ class gRNAVisualize:
                 quant: float = cur_df[self.scoring_metric_name].quantile(q=top_quantile)
                 direction_breakups.append(cur_df[cur_df[self.scoring_metric_name] >= quant].reset_index(drop=True))
             visualize_data: pd.DataFrame = pd.concat(direction_breakups)
-            visualize_kwargs: dict = {
+            visualize_kwargs: Dict = {
                 "hue": "direction"
             }
         else:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from collections import Counter
 
-from typing import Callable, List, cast
+from typing import Callable, List, cast, Dict
 
 import pandas
 import pygad
@@ -154,12 +154,12 @@ class gRNAGroupGA:
         # assert len(set([g.pam for g in initial_gRNAs])) == 1
         # assert len(set([g.scorer for g in initial_gRNAs])) == 1
         # assert len(set([len(g) for g in initial_gRNAs])) == 1
-        self.pos_to_gRNAs: dict[int, dict[str, gRNA]] = {}
+        self.pos_to_gRNAs: Dict[int, Dict[str, gRNA]] = {}
         self.scoring_metric: Callable[[ConfusionMatrix], float] = scoring_metric
         for _, cur_row in initial_gRNAs.iterrows():
             for _ in range(multiplier):
                 if self.pos_to_gRNAs.get(cur_row['gRNA'].position, -1) == -1:
-                    self.pos_to_gRNAs[cur_row['gRNA'].position] = cast(dict[str, gRNA], {"forward": [], "reverse": []})
+                    self.pos_to_gRNAs[cur_row['gRNA'].position] = cast(Dict[str, gRNA], {"forward": [], "reverse": []})
                 if "direction" in cur_row and cur_row["direction"] == "reverse":
                     self.pos_to_gRNAs[cur_row['gRNA'].position]["reverse"].append(cur_row["gRNA"])
                 else:
