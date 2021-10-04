@@ -128,15 +128,20 @@ class gRNA(Seq):
         :param other: Other gRNA
         :return: bool
         """
-        if not isinstance(other, gRNA):
-            return False
-        return self.spacer == other.spacer
+        if isinstance(other, gRNA):
+            return self.spacer == other.spacer
+        if isinstance(other, str):
+            return self.spacer == other
+        return False
 
     def __add__(self, other):
         if type(other) == str:
             return self.__str__() + other
         else:
             return super().__add__(other)
+
+    def __hash__(self):
+        return hash(self.spacer)
 
 
 class gRNA_Factory:
@@ -192,6 +197,7 @@ class gRNA_Factory:
         """
         Create gRNAs sensitive to the sequences in 'genomes_dir'.
 
+        :param bind_cutoff:
         :param genomes_target: directory for the aligned target sequences
         :param scoring_metric: The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
         :param genomes_miss: directory for the aligned sequences not intended to be targeted
