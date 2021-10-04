@@ -1,15 +1,16 @@
 from __future__ import annotations
 from collections import Counter
 
-from typing import Callable, List
+from typing import Callable, List, cast
 
 import pandas
 import pygad
 import seaborn
 
-from gRNA import gRNA, PAM
-from gRNA_scorer import Scorer
-from utils import nucleotide_index_rna, ConfusionMatrix, \
+from gRNA_create.gRNA import gRNA
+from gRNA_create.gRNA_scorer import Scorer
+from gRNA_create.pam import PAM
+from gRNA_create.utils import nucleotide_index_rna, ConfusionMatrix, \
     reverse_complement_dna
 import numpy as np
 from tqdm import tqdm
@@ -27,6 +28,7 @@ class gRNAGeneticAlgorithm(pygad.GA):
                  targets: List[str],
                  misses: List[str] = [],
                  mutation_rate: float = 0.1,
+                 binding_cutoff: float = 0.5,
                  **kwargs
                  ):
         """
@@ -55,6 +57,8 @@ class gRNAGeneticAlgorithm(pygad.GA):
 
         self.target_length = len(targets)
         self.miss_length = len(misses)
+
+        self.binding_cutoff = binding_cutoff
 
         short_targets = [target[self.pos:self.pos + self.length] for target in targets]
         target_PAMs = [
@@ -96,7 +100,8 @@ class gRNAGeneticAlgorithm(pygad.GA):
                                              self.PAM_and_misses_count,
                                              self.target_length,
                                              self.miss_length,
-                                             self.scoring_metric),
+                                             self.scoring_metric,
+                                             self.binding_cutoff),
             on_generation=on_generation,
             mutation_probability=mutation_rate,
             **kwargs
@@ -104,9 +109,10 @@ class gRNAGeneticAlgorithm(pygad.GA):
 
 
 def return_fitness_func(pos: int, pam: PAM, scorer: Scorer, PAM_and_targets_count, PAM_and_misses_count, target_length,
-                        miss_length, scoring_metric):
+                        miss_length, scoring_metric, binding_cutoff: float):
     def fitness_func(chromosome: gRNA_alias, idx: int):
-        gRNA_str: str = "".join([nucleotide_index_rna[nuc_index] for nuc_index in chromosome])
+
+        gRNA_str: str = "".join([str(nucleotide_index_rna[nuc_index]) for nuc_index in chromosome])
 
         cur_gRNA: gRNA = gRNA(pos, gRNA_str, pam, scorer)
 
@@ -119,12 +125,12 @@ def return_fitness_func(pos: int, pam: PAM, scorer: Scorer, PAM_and_targets_coun
         target_PAMs = [PAM(pam.location, p) for p in target_PAMs]
         miss_PAMs = [PAM(pam.location, p) for p in miss_PAMs]
 
-        confusion_matrix: ConfusionMatrix = {p: 0 for p in ["tp", "fn", "tn", "fp"]}
-        for i, res in enumerate(cur_gRNA.binds(targets, target_PAMs)):
+        confusion_matrix: ConfusionMatrix = cast(ConfusionMatrix, {p: 0 for p in ["tp", "fn", "tn", "fp"]})
+        for i, res in enumerate(cur_gRNA.binds(targets, target_PAMs, cutoff=binding_cutoff)):
             confusion_matrix["tp"] += res * PAM_and_targets_count[PAM_and_targets[i]]
         confusion_matrix["fn"] = target_length - confusion_matrix["tp"]
         if miss_length > 0:
-            for i, res in enumerate(cur_gRNA.binds(misses, miss_PAMs)):
+            for i, res in enumerate(cur_gRNA.binds(misses, miss_PAMs, cutoff=binding_cutoff)):
                 confusion_matrix["fp"] += res * PAM_and_misses_count[PAM_and_misses[i]]
             confusion_matrix["tn"] = miss_length - confusion_matrix["fp"]
 
@@ -142,20 +148,22 @@ class gRNAGroupGA:
                  targets: List[str],
                  misses: List[str] = [],
                  mutation_rate: float = 0.1,
+                 multiplier: int = 1,
                  **kwargs
                  ):
         # assert len(set([g.pam for g in initial_gRNAs])) == 1
         # assert len(set([g.scorer for g in initial_gRNAs])) == 1
         # assert len(set([len(g) for g in initial_gRNAs])) == 1
-        self.pos_to_gRNAs: dict[int, dict["str", gRNA]] = {}
+        self.pos_to_gRNAs: dict[int, dict[str, gRNA]] = {}
         self.scoring_metric: Callable[[ConfusionMatrix], float] = scoring_metric
         for _, cur_row in initial_gRNAs.iterrows():
-            if self.pos_to_gRNAs.get(cur_row['gRNA'].position, -1) == -1:
-                self.pos_to_gRNAs[cur_row['gRNA'].position] = {"forward": [], "reverse": []}
-            if "direction" in cur_row and cur_row["direction"] == "reverse":
-                self.pos_to_gRNAs[cur_row['gRNA'].position]["reverse"].append(cur_row["gRNA"])
-            else:
-                self.pos_to_gRNAs[cur_row['gRNA'].position]["forward"].append(cur_row["gRNA"])
+            for _ in range(multiplier):
+                if self.pos_to_gRNAs.get(cur_row['gRNA'].position, -1) == -1:
+                    self.pos_to_gRNAs[cur_row['gRNA'].position] = cast(dict[str, gRNA], {"forward": [], "reverse": []})
+                if "direction" in cur_row and cur_row["direction"] == "reverse":
+                    self.pos_to_gRNAs[cur_row['gRNA'].position]["reverse"].append(cur_row["gRNA"])
+                else:
+                    self.pos_to_gRNAs[cur_row['gRNA'].position]["forward"].append(cur_row["gRNA"])
 
         self.gRNA_genetic_algorithms: List[gRNAGeneticAlgorithm] = []
         for pos, g_dicts in self.pos_to_gRNAs.items():
@@ -172,15 +180,16 @@ class gRNAGroupGA:
                                              misses, mutation_rate=mutation_rate, **kwargs))
 
     @gRNA.parallelize()
-    def run(self):
+    def run(self, show_end_graph: bool = False):
         df_pre = []
 
         for i, GA in tqdm(enumerate(self.gRNA_genetic_algorithms), total=len(self.gRNA_genetic_algorithms)):
             GA.run()
             df_pre += [{"pos": list(self.pos_to_gRNAs.keys())[i], "best": sol, "generation": gen_num} for gen_num, sol
                        in enumerate(GA.best_solutions_fitness)]
-        seaborn.lineplot(x="generation", y="best", data=pandas.DataFrame(df_pre), hue="pos")
-        plt.show()
+        if show_end_graph:
+            seaborn.lineplot(x="generation", y="best", data=pandas.DataFrame(df_pre), hue="pos")
+            plt.show()
 
     def get_result(self) -> pandas.DataFrame:
 
@@ -188,8 +197,8 @@ class gRNAGroupGA:
         for i, pos in enumerate(self.pos_to_gRNAs.keys()):
             cur_GA: gRNAGeneticAlgorithm = self.gRNA_genetic_algorithms[i]
             for chromosome, fitness in zip(cur_GA.population, cur_GA.last_generation_fitness):
-                cur_gRNA = gRNA(pos, "".join([nucleotide_index_rna[nuc] for nuc in chromosome]), cur_GA.pam,
-                                cur_GA.scorer)
+                cur_gRNA: gRNA = gRNA(pos, "".join([str(nucleotide_index_rna[nuc]) for nuc in chromosome]), cur_GA.pam,
+                                      cur_GA.scorer)
                 gRNA_to_metric_score[cur_gRNA] = fitness
 
         df_pre: List[dict] = \
