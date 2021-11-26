@@ -301,20 +301,23 @@ class gRNA_Factory:
 
             spacers: List[str] = list(Counter(spacers_list).keys())
             twp_count: Counter = Counter(targets_w_pam)
-
             for spacer in spacers:
                 if is_end_3:
                     PAMs, targets = zip(
-                        *[(pams_lookup[twp[-self.pam.length:]], twp[:self.length]) for twp in twp_count.keys()])
-                    PAMs_misses, misses = zip(*[(pams_lookup[mwp[-self.pam.length:]], mwp[:self.length]) for mwp in
-                                                mwp_count.keys()]) if genomes_miss else ([], [])
+                        *[(helper_get_PAM(pams_lookup, twp[-self.pam.length:], self.pam.location),
+                           twp[:self.length]) for twp in twp_count.keys()])
+                    PAMs_misses, misses = zip(
+                        *[(helper_get_PAM(pams_lookup, mwp[-self.pam.length:], self.pam.location), mwp[:self.length]) for mwp in
+                            mwp_count.keys()]) if genomes_miss else ([], [])
                 else:
                     PAMs, targets = zip(
-                        *[(pams_lookup[twp[:self.pam.length]], twp[self.pam.length:self.pam.length + self.length]) for
+                        *[(helper_get_PAM(pams_lookup, twp[:self.pam.length], self.pam.location),
+                            twp[self.pam.length:self.pam.length + self.length]) for
                           twp in twp_count.keys()])
                     PAMs_misses, misses = zip(
-                        *[(pams_lookup[mwp[:self.pam.length]], mwp[self.pam.length:self.pam.length + self.length]) for
-                          mwp in twp_count.keys()])
+                        *[(helper_get_PAM(pams_lookup, mwp[:self.pam.length], self.pam.location),
+                            mwp[self.pam.length:self.pam.length + self.length]) for
+                          mwp in mwp_count.keys()]) if genomes_miss else ([], [])
 
                 this_gRNA = gRNA(pam_place + self.pam.length if not is_end_3 else pam_place - self.length,
                                  spacer.replace("T", "U"), self.pam, self.scorer)
@@ -341,3 +344,11 @@ class gRNA_Factory:
             return df.sort_values(by=scoring_metric.__name__, ascending=False).reset_index(drop=True)
         else:
             return df
+
+
+def helper_get_PAM(pam_dict: Dict, query_str: str, pam_end):
+    res = pam_dict.get(query_str, -1)
+    if res == -1:
+        res = PAM(pam_end, query_str)
+        pam_dict[query_str] = res
+    return res

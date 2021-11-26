@@ -28,4 +28,5 @@ gRNA_DataFrame = factory.create_gRNAs(
     pam_minimum_prevalence = 0.8 # [OPTIONAL] | The PAM prevalence in targets needed to keep any gRNAs
 )
 ```
+Creating 
 ![Tests](https://github.com/ArmaanAhmed22/gRNA_create/actions/workflows/tests.yaml/badge.svg)

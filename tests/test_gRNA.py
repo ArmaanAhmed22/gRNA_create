@@ -3,8 +3,8 @@ import pytest
 from gRNA_create.gRNA import gRNA_Factory
 from gRNA_create.gRNA_scorer import Scorer, TwoPenaltyScorer
 from gRNA_create.pam import PAM, End
-from gRNA_create.utils import f_score
-from tests.conf import negative_seqs, positive_seqs
+from gRNA_create.utils import f_score, sensitivity
+from tests.conf import negative_seqs, positive_seqs, positive_seqs_large
 
 
 @pytest.mark.parametrize("gRNA_PAM, gRNA_length, scorer, scoring_metric, expected", [
@@ -56,3 +56,16 @@ def test_factory_create_gRNAs_pos_neg(
     results: pd.DataFrame = gRNA_Factory(gRNA_PAM, gRNA_length, scorer). \
         create_gRNAs(positive_seqs, scoring_metric, genomes_miss=negative_seqs)
     assert results.sort_values(by=scoring_metric.__name__, ascending=False).gRNA.iloc[0].spacer_eq(expected)
+
+
+@pytest.mark.parametrize("gRNA_PAM, gRNA_length, scorer, scoring_metric", [
+    (PAM(End(5), "TT"), 14, TwoPenaltyScorer(), sensitivity)
+])
+def test_factory_create_gRNAs_pos_large(
+        gRNA_PAM: PAM,
+        gRNA_length: int,
+        scorer: Scorer,
+        scoring_metric,
+):
+    gRNA_Factory(gRNA_PAM, gRNA_length, scorer). \
+        create_gRNAs(positive_seqs_large, scoring_metric)
