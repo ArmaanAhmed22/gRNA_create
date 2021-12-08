@@ -7,33 +7,32 @@ import pandas as pd
 
 
 class Scorer:
+    """Class representing a penalty function to determine gRNA binding. Should implement a "penalty" method
+    """
+
     def __init__(self) -> None:
         pass
 
     @abc.abstractmethod
     def penalty(self, gRNA_spacer: str, target: str, needed_PAM: PAM, current_PAM: PAM) -> float:
-        """
-        Generates a penalty score between the current gRNA and target.
+        """Generates a penalty score between the current gRNA and target.
 
-        Parameters
-        ----------
-        gRNA_spacer:
-            The spacer of the gRNA sequence
-        target:
-            The target sequence of the gRNA sequence (ideally the target should exactly match the spacer)
-        needed_PAM:
-            The PAM needed for binding
-        current_PAM:
-            The current PAM sequence of the target
+        Args:
+            gRNA_spacer (str): The spacer of the gRNA sequence
+            target (str): The target sequence of the gRNA sequence (idealy the target should exactly match the spacer)
+            needed_PAM (PAM): The PAM needed for binding
+            current_PAM (PAM): The current PAM sequence of the target
 
-        Returns
-        -------
-        A 0.0 to 1.0 penalty score between the gRNA and target
+        Returns:
+            float: A 0.0 to 1.0 penalty score between the gRNA and target
         """
         pass
 
 
 class TwoPenaltyScorer(Scorer):
+    """A scorer allowing for a maximum of two mismatches. Probably should be used for test purposes
+    """
+
     def penalty(self, gRNA_spacer: str, target: str, needed_PAM: PAM, current_PAM: PAM) -> float:
         if not PAM.overlap(needed_PAM, current_PAM):
             return 1.0
@@ -47,6 +46,9 @@ class TwoPenaltyScorer(Scorer):
 
 
 class AaCas12b(Scorer):
+    """A pseudo-scorer for the AaCas12b enzyme. Derived from the fluorescence data in this study (10.1021/acssynbio.9b00209)
+    """
+
     def __init__(self):
         self.penalty_scores = [
             0.954274354,
@@ -90,6 +92,9 @@ class AaCas12b(Scorer):
 
 
 class CFDScorer(Scorer):
+    """CFD Scorer by Hsu. et al developed for the Cas9 enzyme
+    """
+
     def __init__(self):
         self.cfd: pd.DataFrame = pd.read_csv("../tests/cfd.csv", index_col=0)
         self.cfd_dict: Dict[str, Dict[str, float]] = self.cfd.to_dict()

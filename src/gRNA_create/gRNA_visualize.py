@@ -12,12 +12,26 @@ from colored import attr
 
 
 class gRNAVisualize:
+
     def __init__(self, data: pd.DataFrame, scoring_metric: Callable[[int, int, int, int], float]):
+        """Class that creates graphs on instances based on gRNA population data
+
+        Args:
+            data (pd.DataFrame): The gRNA population data
+            scoring_metric (Callable[[int, int, int, int], float]): The scoring metric used.
+        """
         self.data: pd.DataFrame = data
         self.scoring_metric_name: str = scoring_metric.__name__
         self.has_rev_comp: bool = "direction" in data.columns
 
     def create_rank_plot(self, output: str = "-", separate_rev_comp: bool = True, top_quantile: float = 0.8):
+        """Create a rankplot of the "data"
+
+        Args:
+            output (str, optional): The file destination path. Defaults to "-", no file output.
+            separate_rev_comp (bool, optional): Whether to separate reverse complement gRNAs. Defaults to True.
+            top_quantile (float, optional): The top quantile to rank. Defaults to 0.8.
+        """
         sorted: pd.DataFrame = self.data.sort_values(by=self.scoring_metric_name, ascending=False)
         if self.has_rev_comp and separate_rev_comp:
             direction_breakup_names: List[str] = sorted["direction"].unique()

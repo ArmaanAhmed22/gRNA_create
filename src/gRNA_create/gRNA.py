@@ -22,13 +22,13 @@ class gRNA(Seq):
     _pool: PoolType
 
     def __init__(self, position: int, sequence: str, pam: PAM, scorer: Scorer):
-        """
-        A class representing a gRNA
+        """A class representing a gRNA
 
-        :param position: Position starting from the 5' end of the gRNA relative to the target sequences
-        :param sequence: The variable region of the gRNA
-        :param pam: The PAM of this gRNA
-        :param scorer: The scoring algorithm used to penalize mismatches
+        Args:
+            position (int): Position starting from the 5' end of the gRNA relative to the target sequences.
+            sequence (str): The variable region of the gRNA
+            pam (PAM): The PAM of this gRNA
+            scorer (Scorer): The scoring algorithm used to penalize mismatches
         """
         super().__init__(sequence.replace("T", "U"))
         self.scorer: Scorer = scorer
@@ -37,26 +37,32 @@ class gRNA(Seq):
         self.position: int = position
 
     def bind(self, target: str, target_PAM: PAM, cutoff: float = 0.5) -> bool:
-        """
-        Predicts whether the gRNA will bind to a target
+        """Predicts whether the gRNA will bind to a target
 
-        :param target: The target
-        :param target_PAM: The PAM of the target
-        :param cutoff: The cutoff for the penalty between the gRNA and target
-        :return: Binary value (True or False) of whether the gRNA will bing to the target
+        Args:
+            target (str): The target
+            target_PAM (PAM): The PAM of the target
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+        Returns:
+            bool: Binary value (True or False) of whether the gRNA will bing to the target
         """
+
         penalty: float = self.scorer.penalty(self.spacer, target, self.pam, target_PAM)
         return penalty < cutoff
 
     def binds(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -> List[bool]:
-        """
-        Predicts whether the gRNA will bind to the specified targets
+        """Predicts whether the gRNA will bind to the specified targets
 
-        :param targets: The list of targets
-        :param target_PAMs: The corresponding list of PAMs
-        :param cutoff: The cutoff for the penalty between the gRNA and target
-        :return: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+        Args:
+            targets (list): The list of targets.
+            target_PAMs (list): The corresponding list of PAMs.
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+        Returns:
+            List[bool]: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
         """
+
         a = []
         for i in zip(targets, target_PAMs):
             a.append(self.bind(i[0], i[1], cutoff))
@@ -76,16 +82,19 @@ class gRNA(Seq):
 
     def generate_confusion_matrix(self, positives: list, positive_PAMs: list, negatives: list, negative_PAMs: list,
                                   cutoff: float = 0.5) -> ConfusionMatrix:
-        """
-        Generates a confusion matrix using the predicted binding ability between the gRNA and positive/negative sequences
+        """Generates a confusion matrix using the predicted binding ability between the gRNA and positive/negative sequences
 
-        :param positives: Sequences that are intended to be targeted
-        :param positive_PAMs: PAMs of sequences that are intended to be targeted
-        :param negatives: Sequences that are not intended to be targeted
-        :param negative_PAMs: PAMs of sequences that are not intended to be targeted
-        :param cutoff: The cutoff for the penalty between the gRNA and sequences
-        :return: Confusion matrix
+        Args:
+            positives (list): Sequences that are intended to be targeted
+            positive_PAMs (list): PAMs of sequences that are intended to be targeted
+            negatives (list): Sequences that are not intended to be targeted
+            negative_PAMs (list): PAMs of sequences that are not intended to be targeted
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and sequences. Defaults to 0.5.
+
+        Returns:
+            ConfusionMatrix: Confusion matrix
         """
+
         tp = sum(self.bind_mult(positives, positive_PAMs, cutoff))
         fp = sum(self.bind_mult(negatives, negative_PAMs, cutoff))
         return {"tp": tp, "fn": len(positives) - tp, "tn": len(negatives) - fp, "fp": fp}
@@ -112,22 +121,22 @@ class gRNA(Seq):
 
         return parallelizable
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
+        """Returns a strict equality between two gRNA objects
+
+        Args:
+            other (gRNA): other gRNA
+
+        Returns:
+            bool: Whether they are equal
         """
-        Returns a strict equality between two gRNA objects
-        :param other:
-        :return: bool
-        """
+
         if not isinstance(other, gRNA):
             return False
         return self.spacer == other.spacer and self.position == other.position and self.scorer == other.scorer and self.pam == other.pam
 
-    def spacer_eq(self, other):
-        """
-        Spacer equality between two gRNAs
-        :param other: Other gRNA
-        :return: bool
-        """
+    def spacer_eq(self, other: Union[str, 'gRNA']) -> bool:
+
         if isinstance(other, gRNA):
             return self.spacer == other.spacer
         if isinstance(other, str):
@@ -146,13 +155,14 @@ class gRNA(Seq):
 
 class gRNA_Factory:
     def __init__(self, pam: PAM, length: int, scorer: Scorer):
-        """
-        Create gRNA_Factory to generate gRNAs of a certain length and having a certain PAM
+        """Create gRNA_Factory to generate gRNAs of a certain length and having a certain PAM
 
-        :param pam: The PAM for all generated gRNAs
-        :param length: The length for all generated gRNAs
-        :param scorer: The scorer for all generated gRNAs
+        Args:
+            pam (PAM): The PAM for all generated gRNAs
+            length (int): The length for all generated gRNAs
+            scorer (Scorer): The scorer for all generated gRNAs
         """
+
         self.pam = pam
         self.length = length
         self.scorer = scorer
@@ -163,6 +173,19 @@ class gRNA_Factory:
             scoring_metric: Callable[[int, int, int, int], float],
             genomes_miss: Union[str, List[str]] = [],
             pam_minimum_prevalence: float = 0.5) -> pd.DataFrame:
+        """Create forward and reverse-complement gRNAs.
+
+        Args:
+            genomes_target (Union[str, List[str]]): Directory for the aligned target sequences
+            scoring_metric (Callable[[int, int, int, int], float]): The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
+            genomes_miss (Union[str, List[str]], optional): Directory for the aligned sequences not intended to be targeted. Defaults to [].
+            pam_minimum_prevalence (float, optional): The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered.
+            Defaults to 0.5.
+
+        Returns:
+            pd.DataFrame: Resulting gRNA datatable
+        """
+
         cur_targets = get_sequences_from_dir(genomes_target, ["fasta", "fna", "fastq"]) if type(
             genomes_target) == str else genomes_target
         cur_misses = get_sequences_from_dir(genomes_miss, ["fasta", "fna", "fastq"]) if type(

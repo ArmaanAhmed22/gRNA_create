@@ -5,12 +5,14 @@ from Bio import SeqIO
 
 
 def get_sequences_from_dir(dir: str, accepted_extensions: List[str]) -> List[str]:
-    """
-    This utility function gets sequences from a directory
+    """This utility function gets sequences from a directory
 
-    :param dir: The directory to get the sequences from
-    :param accepted_extensions: The files that have one of these extensions will be read
-    :return: List of the sequences
+    Args:
+        dir (str): The directory to get the sequences from
+        accepted_extensions (List[str]): The files that have one of these extensions will be read
+
+    Returns:
+        List[str]: List of the sequences
     """
     if ("." in dir):
         return [str(record.seq) for record in list(SeqIO.parse(open(dir), dir.split(".")[-1]))]
@@ -22,13 +24,16 @@ def get_sequences_from_dir(dir: str, accepted_extensions: List[str]) -> List[str
 
 
 def return_files_with_extension(files_dir: str, extensions: List[str]) -> list:
-    """
-    This utility function returns files from a directory containing of the extensions
+    """ This utility function returns files from a directory containing of the extensions
 
-    :param files_dir: The directory to get the files from
-    :param extensions: The extensions which the returned files need to have one of
-    :return: File names (including extension) with one of the specified extensions
+    Args:
+        files_dir (str): The directory to get the files from
+        extensions (List[str]): The extensions which the returned files need to have one of
+
+    Returns:
+        list: File names (including extension) with one of the specified extensions
     """
+
     listing = os.listdir(files_dir)
     cur_files = [(cur_listing, ext) for cur_listing in listing if (ext := cur_listing.split(".")[-1]) in extensions]
     return cur_files
@@ -125,14 +130,16 @@ def precision(tp: int, fn: int, tn: int, fp: int) -> float:
 
 
 def f_score(theta: float) -> Callable[[int, int, int, int], float]:
-    """
-    This function returns a specified f-score.
+    """This function returns a specified f-score.
     For example:
         f_score( theta = 1 ) returns f_score_1
         f_score( theta = 2 ) returns f_score_2
 
-    :param theta: The theta value for the specific f-score
-    :return: The specified f-score function
+    Args:
+        theta (float): The theta value for the specific f-score
+
+    Returns:
+        Callable[[int, int, int, int], float]: The specified f-score function
     """
 
     def f(tp: int, fn: int, tn: int, fp: int) -> float:

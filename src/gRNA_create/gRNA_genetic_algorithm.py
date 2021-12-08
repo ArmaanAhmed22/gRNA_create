@@ -20,6 +20,7 @@ gRNA_alias = List[int]
 
 
 class gRNAGeneticAlgorithm(pygad.GA):
+
     def __init__(self,
                  num_generations: int,
                  num_parents_mating: int,
@@ -31,15 +32,16 @@ class gRNAGeneticAlgorithm(pygad.GA):
                  binding_cutoff: float = 0.5,
                  **kwargs
                  ):
-        """
-
-        :param num_generations:
-        :param num_parents_mating:
-        :param scoring_metric:
-        :param initial_gRNAs:
-        :param targets:
-        :param misses:
-        :param mutation_rate:
+        """gRNA genetic algorithm for a signel gRNA location
+        Args:
+            num_generations (int): Number of generations to run algorithm for
+            num_parents_mating (int): Number of gRNAs to splice together during "mating"
+            scoring_metric (Callable[[ConfusionMatrix], float]): The scoring metric
+            initial_gRNAs (List[gRNA]): The initial population of gRNAs
+            targets (List[str]): The aligned target sequences
+            misses (List[str], optional): The aligned negative sequences. Defaults to [].
+            mutation_rate (float, optional): The chance of changing any nucleotide in any gRNA. Defaults to 0.1.
+            binding_cutoff (float, optional): The cutoff score for binding. Defaults to 0.5.
         """
         assert len(set([g.position for g in initial_gRNAs])) == 1
         assert len(set([g.pam for g in initial_gRNAs])) == 1
@@ -93,23 +95,23 @@ class gRNAGeneticAlgorithm(pygad.GA):
             gene_type=int,
             gene_space=range(4),
             initial_population=np.array(gRNA_aliases),
-            fitness_func=return_fitness_func(self.pos,
-                                             self.pam,
-                                             self.scorer,
-                                             self.PAM_and_targets_count,
-                                             self.PAM_and_misses_count,
-                                             self.target_length,
-                                             self.miss_length,
-                                             self.scoring_metric,
-                                             self.binding_cutoff),
+            fitness_func=_return_fitness_func(self.pos,
+                                              self.pam,
+                                              self.scorer,
+                                              self.PAM_and_targets_count,
+                                              self.PAM_and_misses_count,
+                                              self.target_length,
+                                              self.miss_length,
+                                              self.scoring_metric,
+                                              self.binding_cutoff),
             on_generation=on_generation,
             mutation_probability=mutation_rate,
             **kwargs
         )
 
 
-def return_fitness_func(pos: int, pam: PAM, scorer: Scorer, PAM_and_targets_count, PAM_and_misses_count, target_length,
-                        miss_length, scoring_metric, binding_cutoff: float):
+def _return_fitness_func(pos: int, pam: PAM, scorer: Scorer, PAM_and_targets_count, PAM_and_misses_count, target_length,
+                         miss_length, scoring_metric, binding_cutoff: float):
     def fitness_func(chromosome: gRNA_alias, idx: int):
 
         gRNA_str: str = "".join([str(nucleotide_index_rna[nuc_index]) for nuc_index in chromosome])
@@ -140,6 +142,7 @@ def return_fitness_func(pos: int, pam: PAM, scorer: Scorer, PAM_and_targets_coun
 
 
 class gRNAGroupGA:
+
     def __init__(self,
                  num_generations: int,
                  num_parents_mating: int,
@@ -151,9 +154,18 @@ class gRNAGroupGA:
                  multiplier: int = 1,
                  **kwargs
                  ):
-        # assert len(set([g.pam for g in initial_gRNAs])) == 1
-        # assert len(set([g.scorer for g in initial_gRNAs])) == 1
-        # assert len(set([len(g) for g in initial_gRNAs])) == 1
+        """gRNA genetic algorithm for a whole population of gRNAs
+
+        Args:
+            num_generations (int): The number of generations to run the genetic algorithm for.
+            num_parents_mating (int): The number of gRNAs to splice together.
+            scoring_metric (Callable[[ConfusionMatrix], float]): The scoring metric to measure gRNA performance.
+            initial_gRNAs (pandas.DataFrame): Initial population of gRNAs.
+            targets (List[str]): List of aligned target regions.
+            misses (List[str], optional): List of aligned negative regions. Defaults to [].
+            mutation_rate (float, optional): The chance of inserting a mutation into any given position of any gRNA. Defaults to 0.1.
+            multiplier (int, optional): The scalar to multiply the population of gRNAs by. Useful if there are not enough parents. Defaults to 1.
+        """
         self.pos_to_gRNAs: Dict[int, Dict[str, gRNA]] = {}
         self.scoring_metric: Callable[[ConfusionMatrix], float] = scoring_metric
         for _, cur_row in initial_gRNAs.iterrows():
@@ -181,6 +193,11 @@ class gRNAGroupGA:
 
     @gRNA.parallelize()
     def run(self, show_end_graph: bool = False):
+        """Run the genetic algorithm
+
+        Args:
+            show_end_graph (bool, optional): Whether an end graph should be shown to see gRNA improvements. Defaults to False.
+        """
         df_pre = []
 
         for i, GA in tqdm(enumerate(self.gRNA_genetic_algorithms), total=len(self.gRNA_genetic_algorithms)):
@@ -192,7 +209,11 @@ class gRNAGroupGA:
             plt.show()
 
     def get_result(self) -> pandas.DataFrame:
+        """Return genetic algorithm results
 
+        Returns:
+            pandas.DataFrame: Dataframe of new population of improved gRNAs.
+        """
         gRNA_to_metric_score: dict = {}
         for i, pos in enumerate(self.pos_to_gRNAs.keys()):
             cur_GA: gRNAGeneticAlgorithm = self.gRNA_genetic_algorithms[i]

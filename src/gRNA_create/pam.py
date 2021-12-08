@@ -20,21 +20,21 @@ class PAM:
     ambiguous_dna_values_set = {k: set(v) for k, v in ambiguous_dna_values.items()}
 
     def __init__(self, location: End, sequence: str):
-        """
-        A PAM is usually necessary for Cas-gRNA binding to a target sequence. This object encodes a PAM
+        """A PAM is usually necessary for Cas-gRNA binding to a target sequence. This object encodes a PAM
 
-        :param location: Specifies which side of the spacer the PAM is on
-        :param sequence: Specifies the actual PAM sequence (can contain degenerate nucleotides)
+        Args:
+            location (End): Specifies which side of the spacer the PAM is on
+            sequence (str): Specifies the actual PAM sequence (can contain degenerate nucleotides)
         """
         self.location = location
         self.sequence = sequence
         self.length = len(sequence)
 
     def generate_non_ambiguous(self) -> List[PAM]:
-        """
-        Generates all non-degenerate PAMs that are subsets of this PAM
+        """Generates all non-degenerate PAMs that are subsets of this PAM
 
-        :return: List of non-degenerate PAMs
+        Returns:
+            List[PAM]: List of non-degenerate PAMs
         """
 
         pams = [PAM(self.location, "".join(possible)) for possible in
@@ -43,13 +43,19 @@ class PAM:
 
     @staticmethod
     def overlap(pam1: PAM, pam2: PAM) -> bool:
-        """
-        Checks whether "pam1" and "pam2" overlap, meaning whether they share any non-degenerate PAMs
+        """Checks whether "pam1" and "pam2" overlap, meaning whether they share any non-degenerate PAMs
 
-        :param pam1: The first PAM
-        :param pam2: The second PAM
-        :return: Whether "pam1" and "pam2" overlap
+        Args:
+            pam1 (PAM): The first PAM
+            pam2 (PAM): The second PAM
+
+        Raises:
+            Exception: Raised when PAMs not same length
+
+        Returns:
+            bool: Whether "pam1" and "pam2" overlap
         """
+
         if pam1.location != pam2.location:
             return False
         for i in range(pam1.length):
