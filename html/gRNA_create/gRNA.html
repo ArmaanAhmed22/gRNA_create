@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>gRNA_create.gRNA API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>gRNA_create.gRNA</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Callable, Union, List, Dict
+
+from Bio.Seq import Seq
+
+from gRNA_create.gRNA_scorer import Scorer
+from gRNA_create.utils import get_sequences_from_dir, complement_table, ConfusionMatrix
+from multiprocessing import Pool
+import multiprocessing
+from gRNA_create.pam import PAM, End
+import pandas as pd
+from collections import Counter
+from tqdm import tqdm
+from multiprocessing.pool import Pool as PoolType
+
+from colored import attr
+
+import sys
+import traceback
+
+
+class gRNA(Seq):
+    _pool: PoolType
+
+    def __init__(self, position: int, sequence: str, pam: PAM, scorer: Scorer):
+        &#34;&#34;&#34;A class representing a gRNA
+
+        Args:
+            position (int): Position starting from the 5&#39; end of the gRNA relative to the target sequences.
+            sequence (str): The variable region of the gRNA
+            pam (PAM): The PAM of this gRNA
+            scorer (Scorer): The scoring algorithm used to penalize mismatches
+        &#34;&#34;&#34;
+        super().__init__(sequence.replace(&#34;T&#34;, &#34;U&#34;))
+        self.scorer: Scorer = scorer
+        self.spacer: str = sequence.replace(&#34;U&#34;, &#34;T&#34;)
+        self.pam: PAM = pam
+        self.position: int = position
+
+    def bind(self, target: str, target_PAM: PAM, cutoff: float = 0.5) -&gt; bool:
+        &#34;&#34;&#34;Predicts whether the gRNA will bind to a target
+
+        Args:
+            target (str): The target
+            target_PAM (PAM): The PAM of the target
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+        Returns:
+            bool: Binary value (True or False) of whether the gRNA will bing to the target
+        &#34;&#34;&#34;
+        
+        penalty: float = self.scorer.penalty(self.spacer, target, self.pam, target_PAM)
+        return penalty &lt; cutoff
+
+    def binds(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -&gt; List[bool]:
+        &#34;&#34;&#34;Predicts whether the gRNA will bind to the specified targets
+
+        Args:
+            targets (list): The list of targets.
+            target_PAMs (list): The corresponding list of PAMs.
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+        Returns:
+            List[bool]: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+        &#34;&#34;&#34;
+        
+        a = []
+        for i in zip(targets, target_PAMs):
+            a.append(self.bind(i[0], i[1], cutoff))
+        return a
+
+    def bind_mult(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -&gt; List[bool]:
+        &#34;&#34;&#34;
+        Predicts whether the gRNA will bind to the specified targets using a Pool
+
+        :param targets: The list of targets
+        :param target_PAMs: The corresponding list of PAMs
+        :param cutoff: The cutoff for the penalty between the gRNA and target
+        :return: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+        &#34;&#34;&#34;
+        out: List[bool] = gRNA._pool.starmap(self.bind, zip(targets, target_PAMs, [cutoff] * len(targets)))
+        return out
+
+    def generate_confusion_matrix(self, positives: list, positive_PAMs: list, negatives: list, negative_PAMs: list,
+                                  cutoff: float = 0.5) -&gt; ConfusionMatrix:
+        &#34;&#34;&#34;Generates a confusion matrix using the predicted binding ability between the gRNA and positive/negative sequences
+
+        Args:
+            positives (list): Sequences that are intended to be targeted
+            positive_PAMs (list): PAMs of sequences that are intended to be targeted
+            negatives (list): Sequences that are not intended to be targeted
+            negative_PAMs (list): PAMs of sequences that are not intended to be targeted
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and sequences. Defaults to 0.5.
+
+        Returns:
+            ConfusionMatrix: Confusion matrix
+        &#34;&#34;&#34;
+
+        tp = sum(self.bind_mult(positives, positive_PAMs, cutoff))
+        fp = sum(self.bind_mult(negatives, negative_PAMs, cutoff))
+        return {&#34;tp&#34;: tp, &#34;fn&#34;: len(positives) - tp, &#34;tn&#34;: len(negatives) - fp, &#34;fp&#34;: fp}
+
+    @staticmethod
+    def parallelize(cores: int = multiprocessing.cpu_count()):
+        def parallelizable(method):
+            def wrapper(*args, **kwargs):
+                gRNA._pool = Pool(cores)
+                try:
+                    res = method(*args, **kwargs)
+                    user_quit = False
+                except BaseException:
+                    traceback.print_exc()
+                    user_quit = True
+                gRNA._pool.close()
+                gRNA._pool.join()
+
+                if user_quit:
+                    sys.exit(1)
+                return res
+
+            return wrapper
+
+        return parallelizable
+
+    def __eq__(self, other) -&gt; bool:
+        &#34;&#34;&#34;Returns a strict equality between two gRNA objects
+
+        Args:
+            other (gRNA): other gRNA
+
+        Returns:
+            bool: Whether they are equal
+        &#34;&#34;&#34;
+        
+        if not isinstance(other, gRNA):
+            return False
+        return self.spacer == other.spacer and self.position == other.position and self.scorer == other.scorer and self.pam == other.pam
+
+    def spacer_eq(self, other: Union[str,&#39;gRNA&#39;]) -&gt; bool:
+        
+        if isinstance(other, gRNA):
+            return self.spacer == other.spacer
+        if isinstance(other, str):
+            return self.spacer == other
+        return False
+
+    def __add__(self, other):
+        if type(other) == str:
+            return self.__str__() + other
+        else:
+            return super().__add__(other)
+
+    def __hash__(self):
+        return hash(self.spacer)
+
+
+class gRNA_Factory:
+    def __init__(self, pam: PAM, length: int, scorer: Scorer):
+        &#34;&#34;&#34;Create gRNA_Factory to generate gRNAs of a certain length and having a certain PAM
+
+        Args:
+            pam (PAM): The PAM for all generated gRNAs
+            length (int): The length for all generated gRNAs
+            scorer (Scorer): The scorer for all generated gRNAs
+        &#34;&#34;&#34;
+        
+        self.pam = pam
+        self.length = length
+        self.scorer = scorer
+
+    def create_gRNAs_with_reverse_complement(
+            self,
+            genomes_target: Union[str, List[str]],
+            scoring_metric: Callable[[int, int, int, int], float],
+            genomes_miss: Union[str, List[str]] = [],
+            pam_minimum_prevalence: float = 0.5) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Create forward and reverse-complement gRNAs.
+
+        Args:
+            genomes_target (Union[str, List[str]]): Directory for the aligned target sequences
+            scoring_metric (Callable[[int, int, int, int], float]): The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
+            genomes_miss (Union[str, List[str]], optional): Directory for the aligned sequences not intended to be targeted. Defaults to [].
+            pam_minimum_prevalence (float, optional): The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered. Defaults to 0.5.
+
+        Returns:
+            pd.DataFrame: Resulting gRNA datatable
+        &#34;&#34;&#34;
+        
+        cur_targets = get_sequences_from_dir(genomes_target, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if type(
+            genomes_target) == str else genomes_target
+        cur_misses = get_sequences_from_dir(genomes_miss, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if type(
+            genomes_miss) == str else genomes_miss
+        print(f&#34;{attr(&#39;bold&#39;)} Generating forward gRNAs {attr(&#39;reset&#39;)}&#34;)
+        forward = self.create_gRNAs(
+            cur_targets,
+            scoring_metric,
+            genomes_miss=cur_misses,
+            pam_minimum_prevalence=pam_minimum_prevalence)
+        cur_targets = [&#34;&#34;.join([complement_table[nuc] for nuc in target[::-1]]) for target in cur_targets]
+        cur_misses = [&#34;&#34;.join([complement_table[nuc] for nuc in miss[::-1]]) for miss in
+                      cur_misses]
+        print(f&#34;{attr(&#39;bold&#39;)} Generating reverse gRNAs {attr(&#39;reset&#39;)}&#34;)
+        reverse = self.create_gRNAs(
+            cur_targets,
+            scoring_metric,
+            genomes_miss=cur_misses,
+            pam_minimum_prevalence=pam_minimum_prevalence)
+        forward[&#34;direction&#34;] = &#34;forward&#34;
+        reverse[&#34;direction&#34;] = &#34;reverse&#34;
+        return pd.concat([forward, reverse])
+
+    @gRNA.parallelize()
+    def create_gRNAs(
+            self,
+            genomes_target: Union[str, List[str]],
+            scoring_metric: Callable[[int, int, int, int], float],
+            genomes_miss: Union[str, List[str]] = [],
+            pam_minimum_prevalence: float = 0.5,
+            bind_cutoff: float = 0.5) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Create gRNAs sensitive to the sequences in &#39;genomes_dir&#39;.
+
+        :param bind_cutoff:
+        :param genomes_target: directory for the aligned target sequences
+        :param scoring_metric: The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
+        :param genomes_miss: directory for the aligned sequences not intended to be targeted
+        :param pam_minimum_prevalence: The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered
+        &#34;&#34;&#34;
+
+        def wrapper_scoring_metric(series: pd.core.series.Series):
+            &#34;&#34;&#34;
+            This is a wrapper that takes in a series and returns the score
+
+            :param series: The pandas series containing &#34;tp&#34;, &#34;fn&#34;, &#34;tn&#34;, and &#34;fp&#34; attributes
+            :return: The evaluated scoring_metric
+            &#34;&#34;&#34;
+            return scoring_metric(series.tp, series.fn, series.tn, series.fp)
+
+        pams_lookup: Dict[str, PAM] = {str(pam): pam for pam in
+                                       PAM(self.pam.location, self.pam.sequence).generate_non_ambiguous()}
+
+        cur_targets: List[str] = get_sequences_from_dir(genomes_target, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if str == type(
+            genomes_target) else list(genomes_target)
+        &#34;&#34;&#34;The positive target sequences&#34;&#34;&#34;
+        number_targets: int = len(cur_targets)
+        &#34;&#34;&#34;Count of positive target sequences&#34;&#34;&#34;
+
+        cur_misses: List[str] = get_sequences_from_dir(str(genomes_miss), [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if str == type(
+            genomes_miss) else list(genomes_miss)
+        &#34;&#34;&#34;The negative target sequences&#34;&#34;&#34;
+        number_misses: int = len(cur_misses)
+        &#34;&#34;&#34;Count of negative target sequences&#34;&#34;&#34;
+
+        nuc_prevalence: List[Counter] = [Counter(nucs) for nucs in zip(*cur_targets)]
+        &#34;&#34;&#34;The absolute nucleotide prevalence of the positive target sequences&#34;&#34;&#34;
+        if self.pam.location == End(5):
+            start_pam_search: int = 0
+            &#34;&#34;&#34;The position to start the PAM search&#34;&#34;&#34;
+            end_pam_search: int = len(cur_targets[0]) - self.pam.length + 1 - self.length
+            &#34;&#34;&#34;The position to end the PAM search&#34;&#34;&#34;
+            is_end_3: bool = False
+            &#34;&#34;&#34;Is the PAM at the 3&#39; End?&#34;&#34;&#34;
+        else:
+            start_pam_search = self.length
+            end_pam_search = len(cur_targets[0]) - self.pam.length + 1
+            is_end_3 = True
+        i: int = start_pam_search
+        &#34;&#34;&#34;Index of the current search region&#34;&#34;&#34;
+        possible_pam_regions: List[int] = []
+        &#34;&#34;&#34;List of good candidate gRNA regions (have PAM prevalence above cutoff)&#34;&#34;&#34;
+        while i &lt; end_pam_search:
+            # -----------------------------
+            # Very quick filter to get rid of very bad PAM guesses...
+            bad_pam_location: bool = False
+            &#34;&#34;&#34;Is this a bad PAM region?&#34;&#34;&#34;
+            for i_pam, nuc_pam in enumerate(self.pam.sequence):
+                count: int = 0
+                &#34;&#34;&#34;The count of the current nucleotide within this PAM region&#34;&#34;&#34;
+                for seq_nuc in nuc_prevalence[i_pam + i].keys():
+                    if PAM.overlap(PAM(self.pam.location, nuc_pam), PAM(self.pam.location, seq_nuc)):
+                        count += nuc_prevalence[i_pam + i][seq_nuc]
+                if count / number_targets &lt; pam_minimum_prevalence:
+                    bad_pam_location = True
+                    break
+            if bad_pam_location:
+                i += 1
+                continue
+            # -----------------------------
+            pams: List[str] = []
+            &#34;All the PAMs at this position within all positive target sequences&#34;
+            for target in cur_targets:
+                pams.append(target[i: i + self.pam.length])
+            count_good: int = 0
+            &#34;&#34;&#34;Count of good PAMs [that is suitable for the gRNA]&#34;&#34;&#34;
+
+            for pam, prev in Counter(pams).items():
+                if PAM.overlap(PAM(End(self.pam.location), pam), self.pam):
+                    count_good += prev
+            if count_good / number_targets &lt; pam_minimum_prevalence:
+                i += 1
+                continue
+            possible_pam_regions.append(i)
+            i += 1
+        # df_pre_type_unit = {&#34;location&#34;: int, &#34;gRNA&#34;: gRNA, &#34;binding_efficiency&#34;: float}
+        df_pre: List[dict] = []
+        pam_place: int
+        for pam_place in tqdm(possible_pam_regions, desc=&#34;gRNAs at this position&#34;):
+            spacers_list: List[str] = []
+            targets_w_pam: List[str] = []
+            for target in cur_targets:
+                if is_end_3:
+                    spacers_list.append(target[pam_place - self.length:pam_place])
+                    targets_w_pam.append(target[pam_place - self.length:pam_place + self.pam.length])
+                else:
+                    spacers_list.append(target[pam_place + self.pam.length:pam_place + self.pam.length + self.length])
+                    targets_w_pam.append(target[pam_place:pam_place + self.pam.length + self.length])
+            misses_w_pam: List[str] = []
+            for target in cur_misses:
+                if is_end_3:
+                    misses_w_pam.append(target[pam_place - self.length:pam_place + self.pam.length])
+                else:
+                    misses_w_pam.append(target[pam_place:pam_place + self.pam.length + self.length])
+            mwp_count: Counter = Counter(misses_w_pam)
+
+            spacers: List[str] = list(Counter(spacers_list).keys())
+            twp_count: Counter = Counter(targets_w_pam)
+            for spacer in spacers:
+                if is_end_3:
+                    PAMs, targets = zip(
+                        *[(helper_get_PAM(pams_lookup, twp[-self.pam.length:], self.pam.location),
+                           twp[:self.length]) for twp in twp_count.keys()])
+                    PAMs_misses, misses = zip(
+                        *[(helper_get_PAM(pams_lookup, mwp[-self.pam.length:], self.pam.location), mwp[:self.length]) for mwp in
+                            mwp_count.keys()]) if genomes_miss else ([], [])
+                else:
+                    PAMs, targets = zip(
+                        *[(helper_get_PAM(pams_lookup, twp[:self.pam.length], self.pam.location),
+                            twp[self.pam.length:self.pam.length + self.length]) for
+                          twp in twp_count.keys()])
+                    PAMs_misses, misses = zip(
+                        *[(helper_get_PAM(pams_lookup, mwp[:self.pam.length], self.pam.location),
+                            mwp[self.pam.length:self.pam.length + self.length]) for
+                          mwp in mwp_count.keys()]) if genomes_miss else ([], [])
+
+                this_gRNA = gRNA(pam_place + self.pam.length if not is_end_3 else pam_place - self.length,
+                                 spacer.replace(&#34;T&#34;, &#34;U&#34;), self.pam, self.scorer)
+                binding_results_positive = this_gRNA.binds(targets, PAMs, cutoff=bind_cutoff)
+                binding_results_negative = this_gRNA.binds(misses, PAMs_misses, cutoff=bind_cutoff)
+
+                binding_efficiency_positive: float = 0
+                for target_w_pam, binding_result in zip(twp_count.keys(), binding_results_positive):
+                    binding_efficiency_positive += binding_result * twp_count[target_w_pam]
+                binding_efficiency_negative: float = 0
+                for miss_w_pam, binding_result in zip(mwp_count.keys(), binding_results_negative):
+                    binding_efficiency_negative += binding_result * mwp_count[miss_w_pam]
+                df_pre.append({
+                    &#34;location&#34;: pam_place + self.pam.length if not is_end_3 else pam_place - self.length,
+                    &#34;gRNA&#34;: this_gRNA,
+                    &#34;tp&#34;: binding_efficiency_positive,
+                    &#34;fn&#34;: number_targets - binding_efficiency_positive,
+                    &#34;tn&#34;: number_misses - binding_efficiency_negative,
+                    &#34;fp&#34;: binding_efficiency_negative,
+                })
+        df = pd.DataFrame(df_pre)
+        if df.shape[0] != 0:
+            df[scoring_metric.__name__] = df.apply(wrapper_scoring_metric, axis=1)
+            return df.sort_values(by=scoring_metric.__name__, ascending=False).reset_index(drop=True)
+        else:
+            return df
+
+
+def helper_get_PAM(pam_dict: Dict, query_str: str, pam_end):
+    res = pam_dict.get(query_str, -1)
+    if res == -1:
+        res = PAM(pam_end, query_str)
+        pam_dict[query_str] = res
+    return res</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="gRNA_create.gRNA.helper_get_PAM"><code class="name flex">
+<span>def <span class="ident">helper_get_PAM</span></span>(<span>pam_dict: Dict, query_str: str, pam_end)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def helper_get_PAM(pam_dict: Dict, query_str: str, pam_end):
+    res = pam_dict.get(query_str, -1)
+    if res == -1:
+        res = PAM(pam_end, query_str)
+        pam_dict[query_str] = res
+    return res</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="gRNA_create.gRNA.gRNA"><code class="flex name class">
+<span>class <span class="ident">gRNA</span></span>
+<span>(</span><span>position: int, sequence: str, pam: <a title="gRNA_create.pam.PAM" href="pam.html#gRNA_create.pam.PAM">PAM</a>, scorer: <a title="gRNA_create.gRNA_scorer.Scorer" href="gRNA_scorer.html#gRNA_create.gRNA_scorer.Scorer">Scorer</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read-only sequence object (essentially a string with biological methods).</p>
+<p>Like normal python strings, our basic sequence object is immutable.
+This prevents you from doing my_seq[5] = "A" for example, but does allow
+Seq objects to be used as dictionary keys.</p>
+<p>The Seq object provides a number of string like methods (such as count,
+find, split and strip).</p>
+<p>The Seq object also provides some biological methods, such as complement,
+reverse_complement, transcribe, back_transcribe and translate (which are
+not applicable to protein sequences).</p>
+<p>A class representing a gRNA</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>position</code></strong> :&ensp;<code>int</code></dt>
+<dd>Position starting from the 5' end of the gRNA relative to the target sequences.</dd>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
+<dd>The variable region of the gRNA</dd>
+<dt><strong><code>pam</code></strong> :&ensp;<code>PAM</code></dt>
+<dd>The PAM of this gRNA</dd>
+<dt><strong><code>scorer</code></strong> :&ensp;<code>Scorer</code></dt>
+<dd>The scoring algorithm used to penalize mismatches</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class gRNA(Seq):
+    _pool: PoolType
+
+    def __init__(self, position: int, sequence: str, pam: PAM, scorer: Scorer):
+        &#34;&#34;&#34;A class representing a gRNA
+
+        Args:
+            position (int): Position starting from the 5&#39; end of the gRNA relative to the target sequences.
+            sequence (str): The variable region of the gRNA
+            pam (PAM): The PAM of this gRNA
+            scorer (Scorer): The scoring algorithm used to penalize mismatches
+        &#34;&#34;&#34;
+        super().__init__(sequence.replace(&#34;T&#34;, &#34;U&#34;))
+        self.scorer: Scorer = scorer
+        self.spacer: str = sequence.replace(&#34;U&#34;, &#34;T&#34;)
+        self.pam: PAM = pam
+        self.position: int = position
+
+    def bind(self, target: str, target_PAM: PAM, cutoff: float = 0.5) -&gt; bool:
+        &#34;&#34;&#34;Predicts whether the gRNA will bind to a target
+
+        Args:
+            target (str): The target
+            target_PAM (PAM): The PAM of the target
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+        Returns:
+            bool: Binary value (True or False) of whether the gRNA will bing to the target
+        &#34;&#34;&#34;
+        
+        penalty: float = self.scorer.penalty(self.spacer, target, self.pam, target_PAM)
+        return penalty &lt; cutoff
+
+    def binds(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -&gt; List[bool]:
+        &#34;&#34;&#34;Predicts whether the gRNA will bind to the specified targets
+
+        Args:
+            targets (list): The list of targets.
+            target_PAMs (list): The corresponding list of PAMs.
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+        Returns:
+            List[bool]: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+        &#34;&#34;&#34;
+        
+        a = []
+        for i in zip(targets, target_PAMs):
+            a.append(self.bind(i[0], i[1], cutoff))
+        return a
+
+    def bind_mult(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -&gt; List[bool]:
+        &#34;&#34;&#34;
+        Predicts whether the gRNA will bind to the specified targets using a Pool
+
+        :param targets: The list of targets
+        :param target_PAMs: The corresponding list of PAMs
+        :param cutoff: The cutoff for the penalty between the gRNA and target
+        :return: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+        &#34;&#34;&#34;
+        out: List[bool] = gRNA._pool.starmap(self.bind, zip(targets, target_PAMs, [cutoff] * len(targets)))
+        return out
+
+    def generate_confusion_matrix(self, positives: list, positive_PAMs: list, negatives: list, negative_PAMs: list,
+                                  cutoff: float = 0.5) -&gt; ConfusionMatrix:
+        &#34;&#34;&#34;Generates a confusion matrix using the predicted binding ability between the gRNA and positive/negative sequences
+
+        Args:
+            positives (list): Sequences that are intended to be targeted
+            positive_PAMs (list): PAMs of sequences that are intended to be targeted
+            negatives (list): Sequences that are not intended to be targeted
+            negative_PAMs (list): PAMs of sequences that are not intended to be targeted
+            cutoff (float, optional): The cutoff for the penalty between the gRNA and sequences. Defaults to 0.5.
+
+        Returns:
+            ConfusionMatrix: Confusion matrix
+        &#34;&#34;&#34;
+
+        tp = sum(self.bind_mult(positives, positive_PAMs, cutoff))
+        fp = sum(self.bind_mult(negatives, negative_PAMs, cutoff))
+        return {&#34;tp&#34;: tp, &#34;fn&#34;: len(positives) - tp, &#34;tn&#34;: len(negatives) - fp, &#34;fp&#34;: fp}
+
+    @staticmethod
+    def parallelize(cores: int = multiprocessing.cpu_count()):
+        def parallelizable(method):
+            def wrapper(*args, **kwargs):
+                gRNA._pool = Pool(cores)
+                try:
+                    res = method(*args, **kwargs)
+                    user_quit = False
+                except BaseException:
+                    traceback.print_exc()
+                    user_quit = True
+                gRNA._pool.close()
+                gRNA._pool.join()
+
+                if user_quit:
+                    sys.exit(1)
+                return res
+
+            return wrapper
+
+        return parallelizable
+
+    def __eq__(self, other) -&gt; bool:
+        &#34;&#34;&#34;Returns a strict equality between two gRNA objects
+
+        Args:
+            other (gRNA): other gRNA
+
+        Returns:
+            bool: Whether they are equal
+        &#34;&#34;&#34;
+        
+        if not isinstance(other, gRNA):
+            return False
+        return self.spacer == other.spacer and self.position == other.position and self.scorer == other.scorer and self.pam == other.pam
+
+    def spacer_eq(self, other: Union[str,&#39;gRNA&#39;]) -&gt; bool:
+        
+        if isinstance(other, gRNA):
+            return self.spacer == other.spacer
+        if isinstance(other, str):
+            return self.spacer == other
+        return False
+
+    def __add__(self, other):
+        if type(other) == str:
+            return self.__str__() + other
+        else:
+            return super().__add__(other)
+
+    def __hash__(self):
+        return hash(self.spacer)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>Bio.Seq.Seq</li>
+<li>Bio.Seq._SeqAbstractBaseClass</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="gRNA_create.gRNA.gRNA.parallelize"><code class="name flex">
+<span>def <span class="ident">parallelize</span></span>(<span>cores: int = 4)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def parallelize(cores: int = multiprocessing.cpu_count()):
+    def parallelizable(method):
+        def wrapper(*args, **kwargs):
+            gRNA._pool = Pool(cores)
+            try:
+                res = method(*args, **kwargs)
+                user_quit = False
+            except BaseException:
+                traceback.print_exc()
+                user_quit = True
+            gRNA._pool.close()
+            gRNA._pool.join()
+
+            if user_quit:
+                sys.exit(1)
+            return res
+
+        return wrapper
+
+    return parallelizable</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="gRNA_create.gRNA.gRNA.bind"><code class="name flex">
+<span>def <span class="ident">bind</span></span>(<span>self, target: str, target_PAM: <a title="gRNA_create.pam.PAM" href="pam.html#gRNA_create.pam.PAM">PAM</a>, cutoff: float = 0.5) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Predicts whether the gRNA will bind to a target</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>target</code></strong> :&ensp;<code>str</code></dt>
+<dd>The target</dd>
+<dt><strong><code>target_PAM</code></strong> :&ensp;<code>PAM</code></dt>
+<dd>The PAM of the target</dd>
+<dt><strong><code>cutoff</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>The cutoff for the penalty between the gRNA and target. Defaults to 0.5.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Binary value (True or False) of whether the gRNA will bing to the target</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bind(self, target: str, target_PAM: PAM, cutoff: float = 0.5) -&gt; bool:
+    &#34;&#34;&#34;Predicts whether the gRNA will bind to a target
+
+    Args:
+        target (str): The target
+        target_PAM (PAM): The PAM of the target
+        cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+    Returns:
+        bool: Binary value (True or False) of whether the gRNA will bing to the target
+    &#34;&#34;&#34;
+    
+    penalty: float = self.scorer.penalty(self.spacer, target, self.pam, target_PAM)
+    return penalty &lt; cutoff</code></pre>
+</details>
+</dd>
+<dt id="gRNA_create.gRNA.gRNA.bind_mult"><code class="name flex">
+<span>def <span class="ident">bind_mult</span></span>(<span>self, targets: list, target_PAMs: list, cutoff: float = 0.5) ‑> List[bool]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Predicts whether the gRNA will bind to the specified targets using a Pool</p>
+<p>:param targets: The list of targets
+:param target_PAMs: The corresponding list of PAMs
+:param cutoff: The cutoff for the penalty between the gRNA and target
+:return: Corresponding binary values (True or False) of whether the gRNA will bing to the targets</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bind_mult(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -&gt; List[bool]:
+    &#34;&#34;&#34;
+    Predicts whether the gRNA will bind to the specified targets using a Pool
+
+    :param targets: The list of targets
+    :param target_PAMs: The corresponding list of PAMs
+    :param cutoff: The cutoff for the penalty between the gRNA and target
+    :return: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+    &#34;&#34;&#34;
+    out: List[bool] = gRNA._pool.starmap(self.bind, zip(targets, target_PAMs, [cutoff] * len(targets)))
+    return out</code></pre>
+</details>
+</dd>
+<dt id="gRNA_create.gRNA.gRNA.binds"><code class="name flex">
+<span>def <span class="ident">binds</span></span>(<span>self, targets: list, target_PAMs: list, cutoff: float = 0.5) ‑> List[bool]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Predicts whether the gRNA will bind to the specified targets</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>targets</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of targets.</dd>
+<dt><strong><code>target_PAMs</code></strong> :&ensp;<code>list</code></dt>
+<dd>The corresponding list of PAMs.</dd>
+<dt><strong><code>cutoff</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>The cutoff for the penalty between the gRNA and target. Defaults to 0.5.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>List[bool]</code></dt>
+<dd>Corresponding binary values (True or False) of whether the gRNA will bing to the targets</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def binds(self, targets: list, target_PAMs: list, cutoff: float = 0.5) -&gt; List[bool]:
+    &#34;&#34;&#34;Predicts whether the gRNA will bind to the specified targets
+
+    Args:
+        targets (list): The list of targets.
+        target_PAMs (list): The corresponding list of PAMs.
+        cutoff (float, optional): The cutoff for the penalty between the gRNA and target. Defaults to 0.5.
+
+    Returns:
+        List[bool]: Corresponding binary values (True or False) of whether the gRNA will bing to the targets
+    &#34;&#34;&#34;
+    
+    a = []
+    for i in zip(targets, target_PAMs):
+        a.append(self.bind(i[0], i[1], cutoff))
+    return a</code></pre>
+</details>
+</dd>
+<dt id="gRNA_create.gRNA.gRNA.generate_confusion_matrix"><code class="name flex">
+<span>def <span class="ident">generate_confusion_matrix</span></span>(<span>self, positives: list, positive_PAMs: list, negatives: list, negative_PAMs: list, cutoff: float = 0.5) ‑> <a title="gRNA_create.utils.ConfusionMatrix" href="utils.html#gRNA_create.utils.ConfusionMatrix">ConfusionMatrix</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates a confusion matrix using the predicted binding ability between the gRNA and positive/negative sequences</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>positives</code></strong> :&ensp;<code>list</code></dt>
+<dd>Sequences that are intended to be targeted</dd>
+<dt><strong><code>positive_PAMs</code></strong> :&ensp;<code>list</code></dt>
+<dd>PAMs of sequences that are intended to be targeted</dd>
+<dt><strong><code>negatives</code></strong> :&ensp;<code>list</code></dt>
+<dd>Sequences that are not intended to be targeted</dd>
+<dt><strong><code>negative_PAMs</code></strong> :&ensp;<code>list</code></dt>
+<dd>PAMs of sequences that are not intended to be targeted</dd>
+<dt><strong><code>cutoff</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>The cutoff for the penalty between the gRNA and sequences. Defaults to 0.5.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ConfusionMatrix</code></dt>
+<dd>Confusion matrix</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_confusion_matrix(self, positives: list, positive_PAMs: list, negatives: list, negative_PAMs: list,
+                              cutoff: float = 0.5) -&gt; ConfusionMatrix:
+    &#34;&#34;&#34;Generates a confusion matrix using the predicted binding ability between the gRNA and positive/negative sequences
+
+    Args:
+        positives (list): Sequences that are intended to be targeted
+        positive_PAMs (list): PAMs of sequences that are intended to be targeted
+        negatives (list): Sequences that are not intended to be targeted
+        negative_PAMs (list): PAMs of sequences that are not intended to be targeted
+        cutoff (float, optional): The cutoff for the penalty between the gRNA and sequences. Defaults to 0.5.
+
+    Returns:
+        ConfusionMatrix: Confusion matrix
+    &#34;&#34;&#34;
+
+    tp = sum(self.bind_mult(positives, positive_PAMs, cutoff))
+    fp = sum(self.bind_mult(negatives, negative_PAMs, cutoff))
+    return {&#34;tp&#34;: tp, &#34;fn&#34;: len(positives) - tp, &#34;tn&#34;: len(negatives) - fp, &#34;fp&#34;: fp}</code></pre>
+</details>
+</dd>
+<dt id="gRNA_create.gRNA.gRNA.spacer_eq"><code class="name flex">
+<span>def <span class="ident">spacer_eq</span></span>(<span>self, other: Union[str, ForwardRef('<a title="gRNA_create.gRNA.gRNA" href="#gRNA_create.gRNA.gRNA">gRNA</a>')]) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def spacer_eq(self, other: Union[str,&#39;gRNA&#39;]) -&gt; bool:
+    
+    if isinstance(other, gRNA):
+        return self.spacer == other.spacer
+    if isinstance(other, str):
+        return self.spacer == other
+    return False</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="gRNA_create.gRNA.gRNA_Factory"><code class="flex name class">
+<span>class <span class="ident">gRNA_Factory</span></span>
+<span>(</span><span>pam: <a title="gRNA_create.pam.PAM" href="pam.html#gRNA_create.pam.PAM">PAM</a>, length: int, scorer: <a title="gRNA_create.gRNA_scorer.Scorer" href="gRNA_scorer.html#gRNA_create.gRNA_scorer.Scorer">Scorer</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create gRNA_Factory to generate gRNAs of a certain length and having a certain PAM</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pam</code></strong> :&ensp;<code>PAM</code></dt>
+<dd>The PAM for all generated gRNAs</dd>
+<dt><strong><code>length</code></strong> :&ensp;<code>int</code></dt>
+<dd>The length for all generated gRNAs</dd>
+<dt><strong><code>scorer</code></strong> :&ensp;<code>Scorer</code></dt>
+<dd>The scorer for all generated gRNAs</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class gRNA_Factory:
+    def __init__(self, pam: PAM, length: int, scorer: Scorer):
+        &#34;&#34;&#34;Create gRNA_Factory to generate gRNAs of a certain length and having a certain PAM
+
+        Args:
+            pam (PAM): The PAM for all generated gRNAs
+            length (int): The length for all generated gRNAs
+            scorer (Scorer): The scorer for all generated gRNAs
+        &#34;&#34;&#34;
+        
+        self.pam = pam
+        self.length = length
+        self.scorer = scorer
+
+    def create_gRNAs_with_reverse_complement(
+            self,
+            genomes_target: Union[str, List[str]],
+            scoring_metric: Callable[[int, int, int, int], float],
+            genomes_miss: Union[str, List[str]] = [],
+            pam_minimum_prevalence: float = 0.5) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Create forward and reverse-complement gRNAs.
+
+        Args:
+            genomes_target (Union[str, List[str]]): Directory for the aligned target sequences
+            scoring_metric (Callable[[int, int, int, int], float]): The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
+            genomes_miss (Union[str, List[str]], optional): Directory for the aligned sequences not intended to be targeted. Defaults to [].
+            pam_minimum_prevalence (float, optional): The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered. Defaults to 0.5.
+
+        Returns:
+            pd.DataFrame: Resulting gRNA datatable
+        &#34;&#34;&#34;
+        
+        cur_targets = get_sequences_from_dir(genomes_target, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if type(
+            genomes_target) == str else genomes_target
+        cur_misses = get_sequences_from_dir(genomes_miss, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if type(
+            genomes_miss) == str else genomes_miss
+        print(f&#34;{attr(&#39;bold&#39;)} Generating forward gRNAs {attr(&#39;reset&#39;)}&#34;)
+        forward = self.create_gRNAs(
+            cur_targets,
+            scoring_metric,
+            genomes_miss=cur_misses,
+            pam_minimum_prevalence=pam_minimum_prevalence)
+        cur_targets = [&#34;&#34;.join([complement_table[nuc] for nuc in target[::-1]]) for target in cur_targets]
+        cur_misses = [&#34;&#34;.join([complement_table[nuc] for nuc in miss[::-1]]) for miss in
+                      cur_misses]
+        print(f&#34;{attr(&#39;bold&#39;)} Generating reverse gRNAs {attr(&#39;reset&#39;)}&#34;)
+        reverse = self.create_gRNAs(
+            cur_targets,
+            scoring_metric,
+            genomes_miss=cur_misses,
+            pam_minimum_prevalence=pam_minimum_prevalence)
+        forward[&#34;direction&#34;] = &#34;forward&#34;
+        reverse[&#34;direction&#34;] = &#34;reverse&#34;
+        return pd.concat([forward, reverse])
+
+    @gRNA.parallelize()
+    def create_gRNAs(
+            self,
+            genomes_target: Union[str, List[str]],
+            scoring_metric: Callable[[int, int, int, int], float],
+            genomes_miss: Union[str, List[str]] = [],
+            pam_minimum_prevalence: float = 0.5,
+            bind_cutoff: float = 0.5) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Create gRNAs sensitive to the sequences in &#39;genomes_dir&#39;.
+
+        :param bind_cutoff:
+        :param genomes_target: directory for the aligned target sequences
+        :param scoring_metric: The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
+        :param genomes_miss: directory for the aligned sequences not intended to be targeted
+        :param pam_minimum_prevalence: The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered
+        &#34;&#34;&#34;
+
+        def wrapper_scoring_metric(series: pd.core.series.Series):
+            &#34;&#34;&#34;
+            This is a wrapper that takes in a series and returns the score
+
+            :param series: The pandas series containing &#34;tp&#34;, &#34;fn&#34;, &#34;tn&#34;, and &#34;fp&#34; attributes
+            :return: The evaluated scoring_metric
+            &#34;&#34;&#34;
+            return scoring_metric(series.tp, series.fn, series.tn, series.fp)
+
+        pams_lookup: Dict[str, PAM] = {str(pam): pam for pam in
+                                       PAM(self.pam.location, self.pam.sequence).generate_non_ambiguous()}
+
+        cur_targets: List[str] = get_sequences_from_dir(genomes_target, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if str == type(
+            genomes_target) else list(genomes_target)
+        &#34;&#34;&#34;The positive target sequences&#34;&#34;&#34;
+        number_targets: int = len(cur_targets)
+        &#34;&#34;&#34;Count of positive target sequences&#34;&#34;&#34;
+
+        cur_misses: List[str] = get_sequences_from_dir(str(genomes_miss), [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if str == type(
+            genomes_miss) else list(genomes_miss)
+        &#34;&#34;&#34;The negative target sequences&#34;&#34;&#34;
+        number_misses: int = len(cur_misses)
+        &#34;&#34;&#34;Count of negative target sequences&#34;&#34;&#34;
+
+        nuc_prevalence: List[Counter] = [Counter(nucs) for nucs in zip(*cur_targets)]
+        &#34;&#34;&#34;The absolute nucleotide prevalence of the positive target sequences&#34;&#34;&#34;
+        if self.pam.location == End(5):
+            start_pam_search: int = 0
+            &#34;&#34;&#34;The position to start the PAM search&#34;&#34;&#34;
+            end_pam_search: int = len(cur_targets[0]) - self.pam.length + 1 - self.length
+            &#34;&#34;&#34;The position to end the PAM search&#34;&#34;&#34;
+            is_end_3: bool = False
+            &#34;&#34;&#34;Is the PAM at the 3&#39; End?&#34;&#34;&#34;
+        else:
+            start_pam_search = self.length
+            end_pam_search = len(cur_targets[0]) - self.pam.length + 1
+            is_end_3 = True
+        i: int = start_pam_search
+        &#34;&#34;&#34;Index of the current search region&#34;&#34;&#34;
+        possible_pam_regions: List[int] = []
+        &#34;&#34;&#34;List of good candidate gRNA regions (have PAM prevalence above cutoff)&#34;&#34;&#34;
+        while i &lt; end_pam_search:
+            # -----------------------------
+            # Very quick filter to get rid of very bad PAM guesses...
+            bad_pam_location: bool = False
+            &#34;&#34;&#34;Is this a bad PAM region?&#34;&#34;&#34;
+            for i_pam, nuc_pam in enumerate(self.pam.sequence):
+                count: int = 0
+                &#34;&#34;&#34;The count of the current nucleotide within this PAM region&#34;&#34;&#34;
+                for seq_nuc in nuc_prevalence[i_pam + i].keys():
+                    if PAM.overlap(PAM(self.pam.location, nuc_pam), PAM(self.pam.location, seq_nuc)):
+                        count += nuc_prevalence[i_pam + i][seq_nuc]
+                if count / number_targets &lt; pam_minimum_prevalence:
+                    bad_pam_location = True
+                    break
+            if bad_pam_location:
+                i += 1
+                continue
+            # -----------------------------
+            pams: List[str] = []
+            &#34;All the PAMs at this position within all positive target sequences&#34;
+            for target in cur_targets:
+                pams.append(target[i: i + self.pam.length])
+            count_good: int = 0
+            &#34;&#34;&#34;Count of good PAMs [that is suitable for the gRNA]&#34;&#34;&#34;
+
+            for pam, prev in Counter(pams).items():
+                if PAM.overlap(PAM(End(self.pam.location), pam), self.pam):
+                    count_good += prev
+            if count_good / number_targets &lt; pam_minimum_prevalence:
+                i += 1
+                continue
+            possible_pam_regions.append(i)
+            i += 1
+        # df_pre_type_unit = {&#34;location&#34;: int, &#34;gRNA&#34;: gRNA, &#34;binding_efficiency&#34;: float}
+        df_pre: List[dict] = []
+        pam_place: int
+        for pam_place in tqdm(possible_pam_regions, desc=&#34;gRNAs at this position&#34;):
+            spacers_list: List[str] = []
+            targets_w_pam: List[str] = []
+            for target in cur_targets:
+                if is_end_3:
+                    spacers_list.append(target[pam_place - self.length:pam_place])
+                    targets_w_pam.append(target[pam_place - self.length:pam_place + self.pam.length])
+                else:
+                    spacers_list.append(target[pam_place + self.pam.length:pam_place + self.pam.length + self.length])
+                    targets_w_pam.append(target[pam_place:pam_place + self.pam.length + self.length])
+            misses_w_pam: List[str] = []
+            for target in cur_misses:
+                if is_end_3:
+                    misses_w_pam.append(target[pam_place - self.length:pam_place + self.pam.length])
+                else:
+                    misses_w_pam.append(target[pam_place:pam_place + self.pam.length + self.length])
+            mwp_count: Counter = Counter(misses_w_pam)
+
+            spacers: List[str] = list(Counter(spacers_list).keys())
+            twp_count: Counter = Counter(targets_w_pam)
+            for spacer in spacers:
+                if is_end_3:
+                    PAMs, targets = zip(
+                        *[(helper_get_PAM(pams_lookup, twp[-self.pam.length:], self.pam.location),
+                           twp[:self.length]) for twp in twp_count.keys()])
+                    PAMs_misses, misses = zip(
+                        *[(helper_get_PAM(pams_lookup, mwp[-self.pam.length:], self.pam.location), mwp[:self.length]) for mwp in
+                            mwp_count.keys()]) if genomes_miss else ([], [])
+                else:
+                    PAMs, targets = zip(
+                        *[(helper_get_PAM(pams_lookup, twp[:self.pam.length], self.pam.location),
+                            twp[self.pam.length:self.pam.length + self.length]) for
+                          twp in twp_count.keys()])
+                    PAMs_misses, misses = zip(
+                        *[(helper_get_PAM(pams_lookup, mwp[:self.pam.length], self.pam.location),
+                            mwp[self.pam.length:self.pam.length + self.length]) for
+                          mwp in mwp_count.keys()]) if genomes_miss else ([], [])
+
+                this_gRNA = gRNA(pam_place + self.pam.length if not is_end_3 else pam_place - self.length,
+                                 spacer.replace(&#34;T&#34;, &#34;U&#34;), self.pam, self.scorer)
+                binding_results_positive = this_gRNA.binds(targets, PAMs, cutoff=bind_cutoff)
+                binding_results_negative = this_gRNA.binds(misses, PAMs_misses, cutoff=bind_cutoff)
+
+                binding_efficiency_positive: float = 0
+                for target_w_pam, binding_result in zip(twp_count.keys(), binding_results_positive):
+                    binding_efficiency_positive += binding_result * twp_count[target_w_pam]
+                binding_efficiency_negative: float = 0
+                for miss_w_pam, binding_result in zip(mwp_count.keys(), binding_results_negative):
+                    binding_efficiency_negative += binding_result * mwp_count[miss_w_pam]
+                df_pre.append({
+                    &#34;location&#34;: pam_place + self.pam.length if not is_end_3 else pam_place - self.length,
+                    &#34;gRNA&#34;: this_gRNA,
+                    &#34;tp&#34;: binding_efficiency_positive,
+                    &#34;fn&#34;: number_targets - binding_efficiency_positive,
+                    &#34;tn&#34;: number_misses - binding_efficiency_negative,
+                    &#34;fp&#34;: binding_efficiency_negative,
+                })
+        df = pd.DataFrame(df_pre)
+        if df.shape[0] != 0:
+            df[scoring_metric.__name__] = df.apply(wrapper_scoring_metric, axis=1)
+            return df.sort_values(by=scoring_metric.__name__, ascending=False).reset_index(drop=True)
+        else:
+            return df</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="gRNA_create.gRNA.gRNA_Factory.create_gRNAs"><code class="name flex">
+<span>def <span class="ident">create_gRNAs</span></span>(<span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def wrapper(*args, **kwargs):
+    gRNA._pool = Pool(cores)
+    try:
+        res = method(*args, **kwargs)
+        user_quit = False
+    except BaseException:
+        traceback.print_exc()
+        user_quit = True
+    gRNA._pool.close()
+    gRNA._pool.join()
+
+    if user_quit:
+        sys.exit(1)
+    return res</code></pre>
+</details>
+</dd>
+<dt id="gRNA_create.gRNA.gRNA_Factory.create_gRNAs_with_reverse_complement"><code class="name flex">
+<span>def <span class="ident">create_gRNAs_with_reverse_complement</span></span>(<span>self, genomes_target: Union[str, List[str]], scoring_metric: Callable[[int, int, int, int], float], genomes_miss: Union[str, List[str]] = [], pam_minimum_prevalence: float = 0.5) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create forward and reverse-complement gRNAs.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>genomes_target</code></strong> :&ensp;<code>Union[str, List[str]]</code></dt>
+<dd>Directory for the aligned target sequences</dd>
+<dt><strong><code>scoring_metric</code></strong> :&ensp;<code>Callable[[int, int, int, int], float]</code></dt>
+<dd>The scoring metric (which takes a confusion matrix as input) to rank gRNAs by</dd>
+<dt><strong><code>genomes_miss</code></strong> :&ensp;<code>Union[str, List[str]]</code>, optional</dt>
+<dd>Directory for the aligned sequences not intended to be targeted. Defaults to [].</dd>
+<dt><strong><code>pam_minimum_prevalence</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered. Defaults to 0.5.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Resulting gRNA datatable</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_gRNAs_with_reverse_complement(
+        self,
+        genomes_target: Union[str, List[str]],
+        scoring_metric: Callable[[int, int, int, int], float],
+        genomes_miss: Union[str, List[str]] = [],
+        pam_minimum_prevalence: float = 0.5) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Create forward and reverse-complement gRNAs.
+
+    Args:
+        genomes_target (Union[str, List[str]]): Directory for the aligned target sequences
+        scoring_metric (Callable[[int, int, int, int], float]): The scoring metric (which takes a confusion matrix as input) to rank gRNAs by
+        genomes_miss (Union[str, List[str]], optional): Directory for the aligned sequences not intended to be targeted. Defaults to [].
+        pam_minimum_prevalence (float, optional): The minimum prevalence of the PAM in the target sequences for a gRNA at that position to be considered. Defaults to 0.5.
+
+    Returns:
+        pd.DataFrame: Resulting gRNA datatable
+    &#34;&#34;&#34;
+    
+    cur_targets = get_sequences_from_dir(genomes_target, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if type(
+        genomes_target) == str else genomes_target
+    cur_misses = get_sequences_from_dir(genomes_miss, [&#34;fasta&#34;, &#34;fna&#34;, &#34;fastq&#34;]) if type(
+        genomes_miss) == str else genomes_miss
+    print(f&#34;{attr(&#39;bold&#39;)} Generating forward gRNAs {attr(&#39;reset&#39;)}&#34;)
+    forward = self.create_gRNAs(
+        cur_targets,
+        scoring_metric,
+        genomes_miss=cur_misses,
+        pam_minimum_prevalence=pam_minimum_prevalence)
+    cur_targets = [&#34;&#34;.join([complement_table[nuc] for nuc in target[::-1]]) for target in cur_targets]
+    cur_misses = [&#34;&#34;.join([complement_table[nuc] for nuc in miss[::-1]]) for miss in
+                  cur_misses]
+    print(f&#34;{attr(&#39;bold&#39;)} Generating reverse gRNAs {attr(&#39;reset&#39;)}&#34;)
+    reverse = self.create_gRNAs(
+        cur_targets,
+        scoring_metric,
+        genomes_miss=cur_misses,
+        pam_minimum_prevalence=pam_minimum_prevalence)
+    forward[&#34;direction&#34;] = &#34;forward&#34;
+    reverse[&#34;direction&#34;] = &#34;reverse&#34;
+    return pd.concat([forward, reverse])</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="gRNA_create" href="index.html">gRNA_create</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="gRNA_create.gRNA.helper_get_PAM" href="#gRNA_create.gRNA.helper_get_PAM">helper_get_PAM</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="gRNA_create.gRNA.gRNA" href="#gRNA_create.gRNA.gRNA">gRNA</a></code></h4>
+<ul class="">
+<li><code><a title="gRNA_create.gRNA.gRNA.bind" href="#gRNA_create.gRNA.gRNA.bind">bind</a></code></li>
+<li><code><a title="gRNA_create.gRNA.gRNA.bind_mult" href="#gRNA_create.gRNA.gRNA.bind_mult">bind_mult</a></code></li>
+<li><code><a title="gRNA_create.gRNA.gRNA.binds" href="#gRNA_create.gRNA.gRNA.binds">binds</a></code></li>
+<li><code><a title="gRNA_create.gRNA.gRNA.generate_confusion_matrix" href="#gRNA_create.gRNA.gRNA.generate_confusion_matrix">generate_confusion_matrix</a></code></li>
+<li><code><a title="gRNA_create.gRNA.gRNA.parallelize" href="#gRNA_create.gRNA.gRNA.parallelize">parallelize</a></code></li>
+<li><code><a title="gRNA_create.gRNA.gRNA.spacer_eq" href="#gRNA_create.gRNA.gRNA.spacer_eq">spacer_eq</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="gRNA_create.gRNA.gRNA_Factory" href="#gRNA_create.gRNA.gRNA_Factory">gRNA_Factory</a></code></h4>
+<ul class="">
+<li><code><a title="gRNA_create.gRNA.gRNA_Factory.create_gRNAs" href="#gRNA_create.gRNA.gRNA_Factory.create_gRNAs">create_gRNAs</a></code></li>
+<li><code><a title="gRNA_create.gRNA.gRNA_Factory.create_gRNAs_with_reverse_complement" href="#gRNA_create.gRNA.gRNA_Factory.create_gRNAs_with_reverse_complement">create_gRNAs_with_reverse_complement</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
